@@ -64,28 +64,29 @@ const galleryItems = [
     },
   ];
 
-  
-const refs = {
-    
-  modalRef: document.querySelector('.lightbox'),
-  jsGalleryRef: document.querySelector('.js-gallery'),
-  modalImageRef: document.querySelector('.lightbox__image'),
-  modalBtnRef: document.querySelector('.lightbox__button'),
 
-};
+  const galleryMarkup = galleryItems.map(({ preview, original, description }, index) =>
+  `<li class = "gallery__item">
+  <a class = "gallery__link" href = " ">
+  <img class = "gallery__image" src = "${preview}" data-source = "${original}"
+  alt = "${description}" data-index = "${index}">
+  </a>
+  </li>
+  `).join('');
 
-const galleryMarkup = galleryItems.map(({ preview, original, description }, index) =>
-`<li class = "gallery__item">
-<a class = "gallery__link" href = " ">
-<img class = "gallery__image" src = "${preview}" data-source = "${original}"
-alt = "${description}" data-index = "${index}">
-</a>
-</li>
-`).join('');
+  const boxElems = {
+      
+    modal: document.querySelector('.lightbox'),
+    jsGallery: document.querySelector('.js-gallery'),
+    modalImage: document.querySelector('.lightbox__image'),
+    modalBtn: document.querySelector('.lightbox__button'),
+
+  };
+
 
 console.log(galleryMarkup);
 
-refs.jsGalleryRef.innerHTML = galleryMarkup;
+boxElems.jsGallery.innerHTML = galleryMarkup;
 
 const openModalClick = element => {
   
@@ -93,30 +94,31 @@ const openModalClick = element => {
 
   if (element.target.localName === 'img') {
       
-      refs.modalImageRef.src = element.target.dataset.source;
-      refs.modalImageRef.alt = element.target.alt;
-      refs.modalImageRef.dataset.index = element.target.dataset.index;
-      refs.modalRef.classList.add('is-open');
+      boxElems.modalImage.src = element.target.dataset.source;
+      boxElems.modalImage.alt = element.target.alt;
+      boxElems.modalImage.dataset.index = element.target.dataset.index;
+      boxElems.modal.classList.add('is-open');
   }
 };
 
 const escClick = element => {  
   if (element.key === 'Escape') {   
-      refs.modalRef.classList.remove('is-open')
-      refs.modalImageRef.src = '';
-      refs.modalImageRef.alt = '';
+      boxElems.modal.classList.remove('is-open')
+      boxElems.modalImage.src = '';
+      boxElems.modalImage.alt = '';
   }
 };
 
 const closeModalClick = element  => {
   if (element.target.localName !== 'img') {
-      refs.modalRef.classList.remove('is-open');
-      refs.modalImageRef.src = '';
-      refs.modalImageRef.alt = '';
+      boxElems.modal.classList.remove('is-open');
+      boxElems.modalImage.src = '';
+      boxElems.modalImage.alt = '';
   }
 };
 
-refs.jsGalleryRef.addEventListener('click', openModalClick);
+
+boxElems.jsGallery.addEventListener('click', openModalClick);
 window.addEventListener('click', closeModalClick);
 window.addEventListener('keydown', escClick);
 
