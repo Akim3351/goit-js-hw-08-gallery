@@ -75,7 +75,6 @@ const galleryItems = [
   `).join('');
 
   const boxElems = {
-      
     modal: document.querySelector('.lightbox'),
     jsGallery: document.querySelector('.js-gallery'),
     modalImage: document.querySelector('.lightbox__image'),
@@ -93,34 +92,33 @@ const openModalClick = element => {
   element.preventDefault();
 
   if (element.target.localName === 'img') {
-      
       boxElems.modalImage.src = element.target.dataset.source;
       boxElems.modalImage.alt = element.target.alt;
       boxElems.modalImage.dataset.index = element.target.dataset.index;
       boxElems.modal.classList.add('is-open');
+      window.addEventListener('keydown', escClick);
+      window.addEventListener('click', closeModalClick);
+      
   }
 };
 
+const closeWindow = () => {
+  boxElems.modal.classList.remove('is-open')
+  boxElems.modalImage.src = '';
+  boxElems.modalImage.alt = '';
+};
+
 const escClick = element => {  
-  if (element.key === 'Escape') {   
-      boxElems.modal.classList.remove('is-open')
-      boxElems.modalImage.src = '';
-      boxElems.modalImage.alt = '';
+  if (element.key === 'Escape') {
+    closeWindow();
   }
 };
 
 const closeModalClick = element  => {
   if (element.target.localName !== 'img') {
-      boxElems.modal.classList.remove('is-open');
-      boxElems.modalImage.src = '';
-      boxElems.modalImage.alt = '';
+    closeWindow();
+
   }
 };
 
-
 boxElems.jsGallery.addEventListener('click', openModalClick);
-window.addEventListener('click', closeModalClick);
-window.addEventListener('keydown', escClick);
-
-
-  
